@@ -1,0 +1,27 @@
+[project]
+name = "ezmsg-harvesters"
+version = "0.1.0"
+description = "ezmsg extension for interfacing with Genicam-compliant cameras."
+authors = [{ name = "Preston Peranich", email = "pperanich@gmail.com" }]
+dependencies = [
+  "harvesters>=1.4.3",
+  "ezmsg>=3.4.0",
+  "magicgui>=0.9.1",
+  "ezmsg-vispy>=0.3.2",
+  "pyside6>=6.7.2",
+]
+readme = "README.md"
+requires-python = ">= 3.10, < 3.12"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ezmsg"]
