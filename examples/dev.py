@@ -71,7 +71,8 @@ class GenicamApp(ez.Collection):
 if __name__ == "__main__":
     cam = HarvesterCam(
         HarvesterCamSettings(
-            cti_file=".venv/lib/python3.10/site-packages/genicam/TLSimu.cti",
+            # cti_file=".venv/lib/python3.10/site-packages/genicam/TLSimu.cti",
+            cti_file="/Library/Application Support/Allied Vision/Vimba X/cti/VimbaGigETL.cti",
             connect_first_available=True,
             # auto_start=True,
         )

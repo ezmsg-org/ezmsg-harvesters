@@ -7,7 +7,7 @@ dependencies = [
   "harvesters>=1.4.3",
   "ezmsg>=3.4.0",
   "magicgui>=0.9.1",
-  "ezmsg-vispy>=0.3.2",
+  "ezmsg-vispy>=0.3.3",
   "pyside6>=6.7.2",
 ]
 readme = "README.md"

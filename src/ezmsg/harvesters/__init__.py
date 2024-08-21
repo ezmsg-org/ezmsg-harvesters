@@ -101,6 +101,7 @@ class HarvesterCam(ez.Unit):
             ez.logger.warning(f"UUID not found in mapping! {message.uuid=}")
             return
 
+        ez.logger.info(f"Received {message=}")
         feature = self.STATE.mapping[message.uuid]
         if isinstance(feature, ICategory):
             pass
@@ -109,7 +110,7 @@ class HarvesterCam(ez.Unit):
 
             display_name = feature.node.display_name
             if (
-                display_name == "Acquisition Start"
+                display_name.replace(" ", "") == "AcquisitionStart"
                 and self.STATE.mode is not Mode.STARTED
             ):
                 if self.STATE.ia is not None:
@@ -122,7 +123,7 @@ class HarvesterCam(ez.Unit):
                 self.STATE.mode_change_ev.set()
                 yield self.OUTPUT_CTRL, FeatureSpecs(specs)
             elif (
-                display_name == "Acquisition Stop"
+                display_name.replace(" ", "") == "AcquisitionStop"
                 and self.STATE.mode is not Mode.STOPPED
             ):
                 if self.STATE.ia is not None:
@@ -145,7 +146,7 @@ class HarvesterCam(ez.Unit):
             try:
                 feature.value = message.value
             except Exception as e:
-                ez.logger.info(e)
+                ez.logger.warning(e)
                 yield (
                     self.OUTPUT_CTRL,
                     FeatureValue(Source.CAMERA, message.uuid, feature.value),
@@ -167,6 +168,7 @@ class HarvesterCam(ez.Unit):
                         print("Timed out! Sleeping...")
                         await asyncio.sleep(0.1)
                     else:
+                        print("Image received!")
                         if buffer is None:
                             continue
                         payload = buffer.payload

@@ -100,7 +100,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "ezmsg", specifier = ">=3.4.0" },
-    { name = "ezmsg-vispy", specifier = ">=0.3.2" },
+    { name = "ezmsg-vispy", specifier = ">=0.3.3" },
     { name = "harvesters", specifier = ">=1.4.3" },
     { name = "magicgui", specifier = ">=0.9.1" },
     { name = "pyside6", specifier = ">=6.7.2" },
@@ -108,19 +108,20 @@ requires-dist = [
 
 [[package]]
 name = "ezmsg-vispy"
-version = "0.3.2"
+version = "0.3.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ezmsg" },
+    { name = "magicgui" },
     { name = "numpy" },
     { name = "pyopengl" },
     { name = "qdarkstyle" },
     { name = "qtpy" },
     { name = "vispy" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ef/07/aa67a2dc80ef5ac0c814f77943f50ac766b1539b56226c1c7ce01e193e81/ezmsg_vispy-0.3.2.tar.gz", hash = "sha256:94f4674f0df2a98dfe613736ccc9d3a26153aea85307a717efe29b6753faff31", size = 38438 }
+sdist = { url = "https://files.pythonhosted.org/packages/a5/f3/37f53bbee4a2ab85959e7dc117ff5cfcb3ad9d090e85150280fdbcd06118/ezmsg_vispy-0.3.3.tar.gz", hash = "sha256:56312218898716f4b35cce443f389dfbb0ec96b37b67c0c4fd872dc81ef58cfe", size = 69106 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/62/68/23372346038f443b30d180caf8981411dcf5601383f37a09fe93967d562d/ezmsg_vispy-0.3.2-py3-none-any.whl", hash = "sha256:ddedfae1e2796a6c4425eba6f713ecef085ebd1606ccc583ee11530bdc550862", size = 39377 },
+    { url = "https://files.pythonhosted.org/packages/fe/32/5cc1226114a79b70c3b75cde23e3b4f35815f31894980b67d1202c1535bd/ezmsg_vispy-0.3.3-py3-none-any.whl", hash = "sha256:9c93a7824a2ed2c16dee0bc30adbeddb16e388b5c8285e33893a00b28850327d", size = 39345 },
 ]
 
 [[package]]

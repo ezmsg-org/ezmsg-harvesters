@@ -113,21 +113,35 @@ class FeatureValue:
 class FeatureSpecs(list[BaseFeatureSpec]): ...
 
 
-def build_feature_spec(features, mapping: dict = {}):
+def build_feature_spec(features, mapping: dict = {}, inv_map: dict = {}):
     feature_specs = []
     for feature in features:
         display_name = feature.node.display_name
         visibility = feature.node.visibility
         interface_type = feature.node.principal_interface_type
+        access_mode = feature.node.get_access_mode()
+
+        if access_mode == EAccessMode.NA:
+            print(f"NA: {display_name=}")
+            # continue
+        elif access_mode == EAccessMode.NI:
+            print(f"NI: {display_name=}")
+            continue
+
         if interface_type == EInterfaceType.intfICategory:
             children, _ = build_feature_spec(feature.features, mapping)
             spec = CategoryFeatureSpec(
                 display_name=feature.node.display_name,
-                visibility=feature.node.get_access_mode(),
+                visibility=visibility,
                 children=children,
             )
+        elif interface_type == EInterfaceType.intfICommand:
+            spec = CommandFeatureSpec(
+                display_name=display_name,
+                visibility=visibility,
+            )
+
         elif interface_type == EInterfaceType.intfIInteger:
-            access_mode = feature.node.get_access_mode()
             if access_mode == EAccessMode.RW:
                 spec = IntegerFeatureSpec(
                     display_name=display_name,
@@ -145,29 +159,18 @@ def build_feature_spec(features, mapping: dict = {}):
                     access_mode=access_mode,
                     value=feature.value,
                 )
-            elif access_mode == EAccessMode.NA:
-                # print(display_name)  # NOTE: So far, this is only Timestamp
-                pass
-            else:
-                raise ValueError(f"Unexpected {EAccessMode(access_mode)=}")
-
-        elif interface_type == EInterfaceType.intfICommand:
-            spec = CommandFeatureSpec(
-                display_name=display_name,
-                visibility=visibility,
-            )
         elif interface_type == EInterfaceType.intfIBoolean:
             spec = BooleanFeatureSpec(
                 display_name=display_name,
                 visibility=visibility,
-                access_mode=feature.node.get_access_mode(),
+                access_mode=access_mode,
                 value=feature.value,
             )
         elif interface_type == EInterfaceType.intfIEnumeration:
             spec = EnumFeatureSpec(
                 display_name=display_name,
                 visibility=visibility,
-                access_mode=feature.node.get_access_mode(),
+                access_mode=access_mode,
                 value=feature.value,
                 items=[entry.symbolic for entry in feature.entries],
             )
@@ -175,18 +178,20 @@ def build_feature_spec(features, mapping: dict = {}):
             spec = StringFeatureSpec(
                 display_name=display_name,
                 visibility=visibility,
-                access_mode=feature.node.get_access_mode(),
+                access_mode=access_mode,
                 value=feature.value,
             )
         elif interface_type == EInterfaceType.intfIFloat:
             spec = FloatFeatureSpec(
                 display_name=display_name,
                 visibility=visibility,
-                access_mode=feature.node.get_access_mode(),
+                access_mode=access_mode,
                 value=feature.value,
             )
         else:
-            raise ValueError("Unexpected interface type")
+            raise ValueError(
+                f"Unexpected interface type: {EInterfaceType(interface_type)}"
+            )
 
         # Precautionary
         while spec.uuid in mapping:
@@ -194,4 +199,5 @@ def build_feature_spec(features, mapping: dict = {}):
 
         feature_specs.append(spec)
         mapping[spec.uuid] = feature
+
     return feature_specs, mapping

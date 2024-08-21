@@ -124,7 +124,16 @@ def check_widget_visibility(widget, spec):
 
 def check_container_visibility(con: mw.Container, label: mw.Label):
     def inner(_):
-        if any([each.visible_override for each in con if each != label]) is False:
+        if (
+            any(
+                [
+                    each.visible_override
+                    for each in con
+                    if (each != label and hasattr(each, "visible_override"))
+                ]
+            )
+            is False
+        ):
             label.visible = False
         else:
             label.visible = True
